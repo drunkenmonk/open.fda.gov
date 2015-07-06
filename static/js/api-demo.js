@@ -415,8 +415,8 @@ function runQueries(queryStringForTotalMatching, queryString) {
 // and pass on to a function that calls the openFDA API.
 //
 function constructAndExecuteQuery() {
-  // var queryString = "https://api.fda.gov/drug/event.json?";     // Query string begins with endpoint,
-  var queryString = endpoint;
+  var queryString = "https://api.fda.gov/drug/event.json?";     // Query string begins with endpoint,
+  // var queryString = endpoint;
   var querySearch = $(selectedTab).find("#query-search").val(); // then SEARCH= parameter,
   var queryCount  = $(selectedTab).find("#query-count").val();  // then COUNT= parameter.
   var queryStringForTotalMatching = queryString;
