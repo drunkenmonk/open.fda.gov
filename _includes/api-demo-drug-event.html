@@ -14,7 +14,8 @@
   <div>
     <ul class="nav nav-pills api-demo-tabs">
       <li><span>Explore the data</span></li>
-      <li class="active"><a href="#spontaneous" data-toggle="pill">Reports over time</a></li>
+      <li class="active"><a href="#spikes" data-toggle="pill">Detect spikes</a></li>
+      <li><a href="#spontaneous" data-toggle="pill">Reports over time</a></li>
       <li><a href="#who-reports" data-toggle="pill">Who reports?</a></li>
       <li><a href="#classes" data-toggle="pill">Drug classes</a></li>
       <li><a href="#indications" data-toggle="pill">Drug indications</a></li>
@@ -23,6 +24,156 @@
   </div>
   
   <div class="tab-content">
+
+    <!-- START STORY: DETECT SPIKES -->
+    <div class="tab-pane fade in active" id="spikes">
+      
+      <!-- Description -->
+      <div class="row">
+        <div class="col-sm-12 description">
+          <h2>Research Challenge: Detect Spikes!</h2>
+	  <p><em><strong>Option 1: Adverse Events &amp; Spikes</strong></em></p>
+	  <p><em>Start with level 1 and see how far you can get.</em></p>
+	  <ul>
+  	    <li>
+    	      <p><strong>Level 1: Identify it.</strong> Find a spike for a given drug query in the Adverse Events dataset and attempt explain it. For example, was there a recall or an enforcement report issued? Try bucketing by the following variables over time: weight, gender, or drug pairs (further broken down by drug characterization).</p>
+            </li>
+            <li>
+              <p><strong>Level 2: Normalize it.</strong> Using publicly-available health-related data (medical care claims, discharge data, emergency room data) as a normalization method —  how does the spike in the adverse event series change, if at all?</p>
+            </li>
+            <li>
+              <p><strong>Level 3: Automate it.</strong> Is there an algorithm that could be used to automatically identify such spikes?</p>
+            </li>
+       	  </ul>
+	  <p><em><strong>Here are some example queries that we came up with:</strong></em></p>
+          <ol>
+	    <li>
+	      <p><a href="https://api.fda.gov/drug/event.json?search=&count=patient.drug.medicinalproduct&limit=1000">
+	           https://api.fda.gov/drug/event.json?search=&count=patient.drug.medicinalproduct&limit=1000</a></p>
+	    </li>
+	    <li>
+	      <p><a href="https://api.fda.gov/drug/event.json?search=patient.drug.medicinalproduct:ADVIL&count=patient.drug.medicinalproduct">
+	           https://api.fda.gov/drug/event.json?search=patient.drug.medicinalproduct:ADVIL&count=patient.drug.medicinalproduct</a></p>
+	    </li>
+            <li>
+	      <p><a href="https://api.fda.gov/drug/event.json?search=patient.drug.medicinalproduct:[A+TO+Z]&count=patient.drug.medicinalproduct">
+	      	   https://api.fda.gov/drug/event.json?search=patient.drug.medicinalproduct:[A+TO+Z]&count=patient.drug.medicinalproduct</a></p>
+	    </li>
+	    <li>
+	      <p><a href="https://api.fda.gov/drug/event.json?search=receivedate:[20040101+TO+20150101]+AND+patient.drug.medicinalproduct:ACIPHEX&count=receivedate">
+	           https://api.fda.gov/drug/event.json?search=receivedate:[20040101+TO+20150101]+AND+patient.drug.medicinalproduct:ACIPHEX&count=receivedate</a></p>
+	    </li>
+            <li>
+	      <p><a href="https://api.fda.gov/drug/event.json?search=patient.drug.medicinalproduct:Advil">
+	           https://api.fda.gov/drug/event.json?search=patient.drug.medicinalproduct:Advil</a></p>
+	    </li>
+	    <li>
+	      <p><a href="https://api.fda.gov/drug/event.json?search=patient.drug.drugindication:multiple+myeloma">
+	           https://api.fda.gov/drug/event.json?search=patient.drug.drugindication:multiple+myeloma</a></p>
+            </li>
+            <li>
+              <p><a href="https://api.fda.gov/drug/event.json?search=receivedate:[200140101+TO+20150101]+AND+patient.drug.medicinalproduct:ADVIL">
+                   https://api.fda.gov/drug/event.json?search=receivedate:[200140101+TO+20150101]+AND+patient.drug.medicinalproduct:ADVIL</a></p>
+	    </li>
+	  </ol>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div class="row">
+        <div class="col-sm-3">
+          
+          <!-- Radio buttons -->
+          <div class="api-query-control">
+            <h4>Filter</h4>
+            <div class="radio">
+              <label>
+                <input type="radio" name="api-query-options-search" id="query1" value="count=patient.drug.medicinalproduct&limit=1000" checked />
+                Query 1	 
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="api-query-options-search" id="query2" value="patient.drug.medicinalproduct:ADVIL&count=patient.drug.medicinalproduct" />
+                Query 2	 
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="api-query-options-search" id="query3" value="patient.drug.medicinalproduct:[A+TO+Z]&count=patient.drug.medicinalproduct" />
+                Query 3	 
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="api-query-options-search" id="query4" value="receivedate:[20040101+TO+20150101]+AND+patient.drug.medicinalproduct:ACIPHEX&count=receivedate" />
+                Query 4	 
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="api-query-options-search" id="query5" value="patient.drug.medicinalproduct:Advil" />
+                Query 5	 
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="api-query-options-search" id="query6" value="patient.drug.drugindication:multiple+myeloma" />
+                Query 6	 
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="api-query-options-search" id="query7" value="receivedate:[20040101+TO+20150101]+AND+patient.drug.medicinalproduct:ADVIL" />
+                Query 7	 
+              </label>
+            </div>
+
+            <!-- Coverage chart -->
+            <div class="chart coverage">  
+              <h4 id="result-count"></h4>
+              <div id="chart-coverage"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="chart results col-sm-9">
+          <div id="chart"></div>
+        </div>
+      </div>
+
+      <!-- Query fields -->
+      <div class="row">
+        <div class="col-sm-12">
+          <h3 class="what-query">What API query produced these results?</h3>
+          <pre id="query-endpoint">https://api.fda.gov/drug/event.json?</pre>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Search -->
+        <div class="col-sm-6">
+          <div class="api-query-parameter"><a href="{{site.baseurl}}/api/reference/#query-syntax">search=</a> parameter</div>
+          <textarea id="query-search" class="query-textarea form-control">receivedate:[20040101+TO+20150101]</textarea>
+        </div>
+
+        <!-- Count -->
+        <div class="col-sm-6">
+          <div class="api-query-parameter"><a href="{{site.baseurl}}/api/reference/#query-syntax">count=</a> parameter</div>
+          <textarea id="query-count" class="query-textarea form-control">receivedate</textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-sm-2 col-sm-offset-10">
+            <button id="query-button" class="form-control btn btn-primary">Run query</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END STORY: DETECT SPIKES -->
+
 
     <!-- STORY SPONTANEOUS REPORTS -->
     <div class="tab-pane fade in active" id="spontaneous">
