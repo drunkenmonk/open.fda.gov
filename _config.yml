@@ -10,3 +10,5 @@ kramdown:
 highlighter: pygments
 permalink: /update/:title/
 baseurl: ""
+
+port: 80
